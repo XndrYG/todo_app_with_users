@@ -2,9 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 const todoController = require('../controllers/todoController');
+const userController = require('../controllers/userController');
 
-
-
+function addUserToViews(req, res, next){
+    if (req.user){
+        res.locals.user = req.user;
+    }
+    next();
+}
 
 /* GET home page. */
 router.get('/',  todoController.listAll);
@@ -20,5 +25,11 @@ router.get('/item/delete/:id',  todoController.deleteItem);
 router.get('/item/complete/:id',  todoController.makeItemComplete);
 router.get('/item/incomplete/:id',  todoController.markItemIncomplete);
 
+router.get('/register', userController.renderRegistration);
+router.post('/register', userController.register);
 
+router.get('/login', userController.renderLogin);
+router.post('/login', userController.authenticate);
+
+router.get('/logout', userController.logout);
 module.exports = router;
