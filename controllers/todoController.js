@@ -31,7 +31,7 @@ module.exports.displayAddItem = function(req, res) {
 module.exports.addNewItem = async function(req, res){
     await Todo.create({
         description: req.body.description,
-        user_id: req.body.id
+        user_id: req.user.id
     });
     res.redirect('/');
 };
